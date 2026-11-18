@@ -13466,7 +13466,7 @@ function initAutumnScene(container) {
   });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.18;
+  renderer.toneMappingExposure = 1.32;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.autoUpdate = false;
@@ -14158,13 +14158,13 @@ sky.frustumCulled = false;
 sky.renderOrder = -20;
 scene.add(sky);
 
-const hemi = new THREE.HemisphereLight(0xffe2c2, 0x413c30, 0.62);
+const hemi = new THREE.HemisphereLight(0xffe2c2, 0x413c30, 0.74);
 scene.add(hemi);
 
-const ambient = new THREE.AmbientLight(0xffe3b8, 0.2);
+const ambient = new THREE.AmbientLight(0xffe3b8, 0.34);
 scene.add(ambient);
 
-const sun = new THREE.DirectionalLight(0xfff4df, 3.0);
+const sun = new THREE.DirectionalLight(0xfff4df, 4.2);
 // Lower, more lateral sunset angle: longer raking shadows and a clear
 // shadowed side on the cottage instead of flat frontal illumination.
 sun.position.set(-21.5, 7.8, 4.8);
@@ -14179,7 +14179,7 @@ sun.shadow.camera.near = 1;
 sun.shadow.camera.far = 52;
 sun.shadow.bias = -0.00035;
 sun.shadow.normalBias = 0.028;
-sun.shadow.radius = 2.1;
+sun.shadow.radius = 3.4;
 sun.shadow.camera.updateProjectionMatrix();
 scene.add(sun);
 scene.add(sun.target);
@@ -14192,8 +14192,13 @@ const frontFill = new THREE.DirectionalLight(0xffd9a9, 0.11);
 frontFill.position.set(-5, 5.5, 15);
 scene.add(frontFill);
 
+// Soft warm fill: lifts the shaded side of the cottage without flattening the sunset.
+const warmFill = new THREE.DirectionalLight(0xffc07a, 0.55);
+warmFill.position.set(12, 7, 13);
+scene.add(warmFill);
+
 // A small warm bounce that keeps the shaded side of the cottage alive.
-const warmBounce = new THREE.PointLight(0xffa155, 5.5, 9, 2);
+const warmBounce = new THREE.PointLight(0xffa155, 7.5, 10, 2);
 warmBounce.position.set(5.2, 1.7, 4.4);
 scene.add(warmBounce);
 
@@ -18763,7 +18768,7 @@ function initWinterScene(container) {
   renderer.setSize(viewport.width, viewport.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.92;
+  renderer.toneMappingExposure = 1.0;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -18772,13 +18777,13 @@ function initWinterScene(container) {
   canvas.style.display = 'block';
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.92;
+renderer.toneMappingExposure = 1.0;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x040a14);
-scene.fog = new THREE.FogExp2(0x081726, 0.0032);
+scene.background = new THREE.Color(0x09162f);
+scene.fog = new THREE.FogExp2(0x0d203b, 0.0030);
 
 const TARGET = new THREE.Vector3(0, 2.7, -1.8);
 const camera = new THREE.PerspectiveCamera(45, viewport.width / viewport.height, 0.4, 420);
@@ -18818,9 +18823,9 @@ composer.renderTarget2.samples = 2;
 const renderPass = new RenderPass(scene, camera);
 const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(viewport.width, viewport.height),
-  0.38,
+  0.50,
   0.58,
-  0.95
+  0.90
 );
 const outputPass = new OutputPass();
 composer.addPass(renderPass);
@@ -19712,7 +19717,7 @@ function roofMat(color) {
 }
 
 const windowCache = new Map();
-function windowMat(color = 0xffd49a, bright = 1.28) {
+function windowMat(color = 0xffd49a, bright = 1.55) {
   const key = `${color}-${bright}`;
   if (!windowCache.has(key)) {
     const material = new THREE.MeshBasicMaterial({
@@ -19726,7 +19731,7 @@ function windowMat(color = 0xffd49a, bright = 1.28) {
   return windowCache.get(key);
 }
 
-function glowMat(color = 0xffc06a, bright = 1.38) {
+function glowMat(color = 0xffc06a, bright = 1.65) {
   const material = new THREE.MeshBasicMaterial({
     color: new THREE.Color(color).multiplyScalar(bright),
     toneMapped: false,
@@ -19778,10 +19783,10 @@ const groundMaterialDark = new THREE.MeshStandardMaterial({
 // ---------------------------------------------------------------------------
 
 const skyUniforms = {
-  uTop: { value: new THREE.Color(0x020713) },
-  uMid: { value: new THREE.Color(0x07192c) },
-  uHorizon: { value: new THREE.Color(0x13283f) },
-  uWarm: { value: new THREE.Color(0x602b1f) },
+  uTop: { value: new THREE.Color(0x07132e) },
+  uMid: { value: new THREE.Color(0x0d2344) },
+  uHorizon: { value: new THREE.Color(0x1c3658) },
+  uWarm: { value: new THREE.Color(0x70382b) },
 };
 const sky = new THREE.Mesh(
   new THREE.SphereGeometry(230, 32, 20),
@@ -19921,13 +19926,13 @@ underShadow.position.y = -3.34;
 underShadow.renderOrder = -2;
 scene.add(underShadow);
 
-const hemi = new THREE.HemisphereLight(0x6484bd, 0x6b3524, 0.96);
+const hemi = new THREE.HemisphereLight(0x6484bd, 0x6b3524, 1.08);
 scene.add(hemi);
 
-const ambient = new THREE.AmbientLight(0x243758, 0.72);
+const ambient = new THREE.AmbientLight(0x243758, 0.62);
 scene.add(ambient);
 
-const moonLight = new THREE.DirectionalLight(0xafc9ff, 2.3);
+const moonLight = new THREE.DirectionalLight(0xafc9ff, 2.7);
 moonLight.position.set(-24, 37, 19);
 moonLight.castShadow = true;
 moonLight.shadow.mapSize.set(2048, 2048);
@@ -19942,11 +19947,11 @@ moonLight.shadow.normalBias = 0.025;
 moonLight.shadow.radius = 2.2;
 scene.add(moonLight);
 
-const warmFill = new THREE.DirectionalLight(0xff9d59, 0.62);
+const warmFill = new THREE.DirectionalLight(0xff9d59, 0.92);
 warmFill.position.set(22, 16, 28);
 scene.add(warmFill);
 
-const frontFill = new THREE.DirectionalLight(0x91afd7, 1.0);
+const frontFill = new THREE.DirectionalLight(0x91afd7, 1.2);
 frontFill.position.set(4, 19, 32);
 scene.add(frontFill);
 
@@ -19957,11 +19962,11 @@ function pointLight(color, intensity, distance, x, y, z) {
   return light;
 }
 
-const floatLight = pointLight(0xffa957, 280, 24, 0, 5.5, -1.7);
-const bridgeLight = pointLight(0xff9c51, 86, 13, 0, 3.2, 7.2);
-const leftStreetLight = pointLight(0xffad63, 58, 12, -3.3, 3.5, -1.0);
-const rightStreetLight = pointLight(0xff9b4c, 64, 13, 3.6, 3.4, 5.0);
-const southStreetLight = pointLight(0xffa456, 76, 14, 0.4, 3.8, 11.2);
+const floatLight = pointLight(0xffa957, 390, 26, 0, 5.5, -1.7);
+const bridgeLight = pointLight(0xff9c51, 118, 14, 0, 3.2, 7.2);
+const leftStreetLight = pointLight(0xffad63, 82, 13, -3.3, 3.5, -1.0);
+const rightStreetLight = pointLight(0xff9b4c, 92, 14, 3.6, 3.4, 5.0);
+const southStreetLight = pointLight(0xffa456, 108, 15, 0.4, 3.8, 11.2);
 
 // ---------------------------------------------------------------------------
 // Static geometry batching
@@ -25592,6 +25597,13 @@ window.initWinterScene = initWinterScene;
 (() => {
       'use strict';
 
+      const SCENE_EXPOSURE = {
+        spring: 1.18,
+        summer: 1.72,
+        autumn: 1.32,
+        winter: 1.0,
+      };
+
       const SEASONS = {
         spring: {
           order: 'Ⅰ',
@@ -25861,6 +25873,9 @@ window.initWinterScene = initWinterScene;
 
           try {
             const api = init(sceneContainer);
+            if (api && api.renderer && SCENE_EXPOSURE[season]) {
+              api.renderer.toneMappingExposure = SCENE_EXPOSURE[season];
+            }
             currentSceneCleanup = api && typeof api.destroy === 'function' ? api.destroy : null;
             sceneLoadingEl = null;
             sceneContainer.dataset.sceneReady = 'ready';
