@@ -18917,7 +18917,7 @@ function initSummerScene(container) {
   renderer.setSize(viewport.width, viewport.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.60;
+  renderer.toneMappingExposure = 1.72;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -22963,16 +22963,16 @@ function updateWeather(dt) {
   const ease = weatherMix * weatherMix * (3 - 2 * weatherMix);
 
   sun.color.copy(CLEAR_SUN).lerp(RAIN_SUN, ease);
-  sun.intensity = 4.35 + (2.35 - 4.35) * ease;
+  sun.intensity = 4.85 + (2.65 - 4.85) * ease;
   ambient.color.copy(CLEAR_AMBIENT).lerp(RAIN_AMBIENT, ease);
-  ambient.intensity = 0.78 + (0.52 - 0.78) * ease;
+  ambient.intensity = 1.10 + (0.72 - 1.10) * ease;
   hemi.color.copy(CLEAR_HEMI).lerp(RAIN_HEMI, ease);
   hemi.groundColor.copy(CLEAR_GROUND).lerp(RAIN_GROUND, ease);
-  hemi.intensity = 0.58 + (0.42 - 0.58) * ease;
+  hemi.intensity = 0.72 + (0.52 - 0.72) * ease;
   fillLight.color.copy(CLEAR_FILL).lerp(RAIN_FILL, ease);
   fillLight.intensity = 0.25 + (0.32 - 0.25) * ease;
   scene.fog.color.copy(CLEAR_FOG).lerp(RAIN_FOG, ease);
-  renderer.toneMappingExposure = 1.60 + (1.45 - 1.60) * ease;
+  renderer.toneMappingExposure = 1.72 + (1.55 - 1.72) * ease;
 
   MAT.lampGlow.emissiveIntensity = 2.1 + 4.2 * ease;
   for (const light of lampPointLights) {
