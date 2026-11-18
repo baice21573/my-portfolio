@@ -14176,8 +14176,7 @@ if (!THREE.OutputPass) {
           uniform sampler2D tDiffuse;
           varying vec2 vUv;
           void main() {
-            vec4 texel = texture2D(tDiffuse, vUv);
-            gl_FragColor = vec4(pow(texel.rgb, vec3(1.0 / 2.2)), texel.a);
+            gl_FragColor = texture2D(tDiffuse, vUv);
           }
         `
       });
@@ -14592,11 +14591,20 @@ function cylMesh(parent, rt, rb, h, seg, material, x, y, z, cast = true, receive
 // Toon 材质与色阶
 // ---------------------------------------------------------------------------
 
+const toonStops = [78, 136, 198, 255];
+const toonPixels = new Uint8Array(toonStops.length * 4);
+toonStops.forEach((value, index) => {
+  const offset = index * 4;
+  toonPixels[offset] = value;
+  toonPixels[offset + 1] = value;
+  toonPixels[offset + 2] = value;
+  toonPixels[offset + 3] = 255;
+});
 const toonGradient = new THREE.DataTexture(
-  new Uint8Array([78, 136, 198, 255]),
-  4,
+  toonPixels,
+  toonStops.length,
   1,
-  THREE.RedFormat
+  THREE.RGBAFormat
 );
 toonGradient.minFilter = THREE.NearestFilter;
 toonGradient.magFilter = THREE.NearestFilter;
@@ -23897,11 +23905,20 @@ const cloudTexture = makeTexture(256, 128, (ctx, w, h) => {
    Materials / toon ramp
    -------------------------------------------------------------------------- */
 
+const toonStops = [46, 104, 166, 222, 255];
+const toonPixels = new Uint8Array(toonStops.length * 4);
+toonStops.forEach((value, index) => {
+  const offset = index * 4;
+  toonPixels[offset] = value;
+  toonPixels[offset + 1] = value;
+  toonPixels[offset + 2] = value;
+  toonPixels[offset + 3] = 255;
+});
 const toonGradient = new THREE.DataTexture(
-  new Uint8Array([46, 104, 166, 222, 255]),
-  5,
+  toonPixels,
+  toonStops.length,
   1,
-  THREE.RedFormat,
+  THREE.RGBAFormat,
 );
 toonGradient.minFilter = THREE.NearestFilter;
 toonGradient.magFilter = THREE.NearestFilter;
@@ -35938,7 +35955,6 @@ window.initWinterScene = initWinterScene;
     })();
 
 @@SCENE_CLOSE_SCRIPT@@
-
 </body>
 </html>
 
