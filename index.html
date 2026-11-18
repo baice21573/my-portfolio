@@ -35938,6 +35938,23 @@ window.initWinterScene = initWinterScene;
     })();
 
 @@SCENE_CLOSE_SCRIPT@@
+<script id="auto-open-spring">
+(function () {
+  if (window.self === window.top) return;
+  var openSpring = function () {
+    var overlay = document.getElementById('sceneOverlay');
+    if (!overlay || overlay.classList.contains('is-open')) return;
+    if (window.SeasonGallery && typeof window.SeasonGallery.open === 'function') {
+      window.SeasonGallery.open('spring');
+    }
+  };
+  if (document.readyState === 'complete') {
+    setTimeout(openSpring, 700);
+  } else {
+    window.addEventListener('load', function () { setTimeout(openSpring, 700); }, { once: true });
+  }
+})();
+@@SCENE_CLOSE_SCRIPT@@
 </body>
 </html>
 
