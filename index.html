@@ -35938,23 +35938,7 @@ window.initWinterScene = initWinterScene;
     })();
 
 @@SCENE_CLOSE_SCRIPT@@
-<script id="auto-open-spring">
-(function () {
-  if (window.self === window.top) return;
-  var openSpring = function () {
-    var overlay = document.getElementById('sceneOverlay');
-    if (!overlay || overlay.classList.contains('is-open')) return;
-    if (window.SeasonGallery && typeof window.SeasonGallery.open === 'function') {
-      window.SeasonGallery.open('spring');
-    }
-  };
-  if (document.readyState === 'complete') {
-    setTimeout(openSpring, 700);
-  } else {
-    window.addEventListener('load', function () { setTimeout(openSpring, 700); }, { once: true });
-  }
-})();
-@@SCENE_CLOSE_SCRIPT@@
+
 </body>
 </html>
 
@@ -36599,6 +36583,20 @@ window.initWinterScene = initWinterScene;
     const frame = modalContent.querySelector("#seasonGalleryFrame");
     const source = document.getElementById("sceneGalleryDocument");
     if (!frame || !source) return;
+
+    frame.addEventListener("load", function openFirstScene() {
+      frame.removeEventListener("load", openFirstScene);
+      if (!frame.isConnected) return;
+      try {
+        const gallery = frame.contentWindow && frame.contentWindow.SeasonGallery;
+        if (gallery && typeof gallery.open === "function") {
+          gallery.open("spring");
+        }
+      } catch (error) {
+        console.warn("Could not start the first 3D scene.", error);
+      }
+    });
+
     const documentHtml = source.textContent.split("@@SCENE_CLOSE_SCRIPT@@").join("<\/script>");
     frame.srcdoc = documentHtml;
   }
