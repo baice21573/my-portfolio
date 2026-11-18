@@ -13478,7 +13478,9 @@ function initAutumnScene(container) {
   canvas.style.display = 'block';
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffb366);
 scene.fog = new THREE.Fog(0xf0d4a4, 36, 88);
+renderer.setClearColor(0xffb366, 1);
 
 const TARGET = new THREE.Vector3(0, 1.15, 0.15);
 const camera = new THREE.PerspectiveCamera(36, viewport.width / viewport.height, 0.3, 180);
@@ -17921,15 +17923,15 @@ const nightSunDir = new THREE.Vector3(0.53, 0.025, -0.846).normalize();
 
 const dayLook = {
   sunColor: new THREE.Color(0xfff4df),
-  sunIntensity: 3.0,
+  sunIntensity: 4.2,
   sunY: 7.8,
   hemiSky: new THREE.Color(0xffe2c2),
   hemiGround: new THREE.Color(0x413c30),
-  hemiIntensity: 0.52,
+  hemiIntensity: 0.74,
   coolFill: 0.16,
-  frontFill: 0.11,
-  warmBounce: 5.5,
-  exposure: 0.98,
+  frontFill: 0.45,
+  warmBounce: 7.5,
+  exposure: 1.32,
   bloom: 0.8,
   fog: new THREE.Color(0xf0d4a4),
 };
@@ -18783,6 +18785,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x09162f);
+renderer.setClearColor(0x1a1a2e, 1);
 scene.fog = new THREE.FogExp2(0x0d203b, 0.0030);
 
 const TARGET = new THREE.Vector3(0, 2.7, -1.8);
@@ -19717,7 +19720,7 @@ function roofMat(color) {
 }
 
 const windowCache = new Map();
-function windowMat(color = 0xffd49a, bright = 1.55) {
+function windowMat(color = 0xffd49a, bright = 1.85) {
   const key = `${color}-${bright}`;
   if (!windowCache.has(key)) {
     const material = new THREE.MeshBasicMaterial({
@@ -19731,7 +19734,7 @@ function windowMat(color = 0xffd49a, bright = 1.55) {
   return windowCache.get(key);
 }
 
-function glowMat(color = 0xffc06a, bright = 1.65) {
+function glowMat(color = 0xffc06a, bright = 1.95) {
   const material = new THREE.MeshBasicMaterial({
     color: new THREE.Color(color).multiplyScalar(bright),
     toneMapped: false,
@@ -19926,13 +19929,13 @@ underShadow.position.y = -3.34;
 underShadow.renderOrder = -2;
 scene.add(underShadow);
 
-const hemi = new THREE.HemisphereLight(0x6484bd, 0x6b3524, 1.08);
+const hemi = new THREE.HemisphereLight(0x6484bd, 0x6b3524, 1.30);
 scene.add(hemi);
 
-const ambient = new THREE.AmbientLight(0x243758, 0.62);
+const ambient = new THREE.AmbientLight(0x243758, 0.90);
 scene.add(ambient);
 
-const moonLight = new THREE.DirectionalLight(0xafc9ff, 2.7);
+const moonLight = new THREE.DirectionalLight(0xafc9ff, 3.6);
 moonLight.position.set(-24, 37, 19);
 moonLight.castShadow = true;
 moonLight.shadow.mapSize.set(2048, 2048);
@@ -19947,11 +19950,11 @@ moonLight.shadow.normalBias = 0.025;
 moonLight.shadow.radius = 2.2;
 scene.add(moonLight);
 
-const warmFill = new THREE.DirectionalLight(0xff9d59, 0.92);
+const warmFill = new THREE.DirectionalLight(0xff9d59, 1.35);
 warmFill.position.set(22, 16, 28);
 scene.add(warmFill);
 
-const frontFill = new THREE.DirectionalLight(0x91afd7, 1.2);
+const frontFill = new THREE.DirectionalLight(0x91afd7, 1.55);
 frontFill.position.set(4, 19, 32);
 scene.add(frontFill);
 
@@ -19962,11 +19965,11 @@ function pointLight(color, intensity, distance, x, y, z) {
   return light;
 }
 
-const floatLight = pointLight(0xffa957, 390, 26, 0, 5.5, -1.7);
-const bridgeLight = pointLight(0xff9c51, 118, 14, 0, 3.2, 7.2);
-const leftStreetLight = pointLight(0xffad63, 82, 13, -3.3, 3.5, -1.0);
-const rightStreetLight = pointLight(0xff9b4c, 92, 14, 3.6, 3.4, 5.0);
-const southStreetLight = pointLight(0xffa456, 108, 15, 0.4, 3.8, 11.2);
+const floatLight = pointLight(0xffa957, 620, 30, 0, 5.5, -1.7);
+const bridgeLight = pointLight(0xff9c51, 180, 16, 0, 3.2, 7.2);
+const leftStreetLight = pointLight(0xffad63, 130, 15, -3.3, 3.5, -1.0);
+const rightStreetLight = pointLight(0xff9b4c, 145, 16, 3.6, 3.4, 5.0);
+const southStreetLight = pointLight(0xffa456, 165, 17, 0.4, 3.8, 11.2);
 
 // ---------------------------------------------------------------------------
 // Static geometry batching
@@ -25436,11 +25439,11 @@ function animate() {
   }
 
   const wishBoost = 1 + wishMix * 0.22;
-  floatLight.intensity = 280 * (0.93 + 0.045 * Math.sin(t * 3.6) + 0.025 * Math.sin(t * 8.1 + 1.2)) * wishBoost;
-  bridgeLight.intensity = 86 * (0.91 + 0.07 * Math.sin(t * 4.1 + 0.8) + 0.02 * Math.sin(t * 9.7)) * wishBoost;
-  leftStreetLight.intensity = 58 * (0.92 + 0.06 * Math.sin(t * 4.9 + 2.0)) * wishBoost;
-  rightStreetLight.intensity = 64 * (0.9 + 0.08 * Math.sin(t * 3.3 + 4.1)) * wishBoost;
-  southStreetLight.intensity = 76 * (0.92 + 0.06 * Math.sin(t * 4.4 + 1.4)) * wishBoost;
+  floatLight.intensity = 620 * (0.93 + 0.045 * Math.sin(t * 3.6) + 0.025 * Math.sin(t * 8.1 + 1.2)) * wishBoost;
+  bridgeLight.intensity = 180 * (0.91 + 0.07 * Math.sin(t * 4.1 + 0.8) + 0.02 * Math.sin(t * 9.7)) * wishBoost;
+  leftStreetLight.intensity = 130 * (0.92 + 0.06 * Math.sin(t * 4.9 + 2.0)) * wishBoost;
+  rightStreetLight.intensity = 145 * (0.9 + 0.08 * Math.sin(t * 3.3 + 4.1)) * wishBoost;
+  southStreetLight.intensity = 165 * (0.92 + 0.06 * Math.sin(t * 4.4 + 1.4)) * wishBoost;
 
   controls.update();
   renderer.info.autoReset = false;
