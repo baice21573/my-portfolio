@@ -14233,7 +14233,7 @@ function initSpringScene(container) {
   renderer.setSize(viewport.width, viewport.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.86;
+  renderer.toneMappingExposure = 1.18;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -14426,7 +14426,7 @@ const post = (() => {
     new THREE.Vector2(size.x, size.y),
     0.8,
     0.8,
-    0.85
+    0.92
   );
   bloomPass.name = 'SoftBloom';
   // 让泛光略微偏暖，和夕阳/暖白日光统一。
@@ -15090,7 +15090,7 @@ function updateGodRays() {
 // 光照
 // ---------------------------------------------------------------------------
 
-const hemi = new THREE.HemisphereLight(0xa0c0ff, 0xf2c9ce, 0.3);
+const hemi = new THREE.HemisphereLight(0xa0c0ff, 0xf2c9ce, 0.42);
 scene.add(hemi);
 
 const sunLight = new THREE.DirectionalLight(0xffd34f, 6.0);
@@ -15118,7 +15118,7 @@ const frontFill = new THREE.DirectionalLight(0xa0c0ff, 0.45);
 frontFill.position.set(13, 8, 19);
 scene.add(frontFill);
 
-const ambient = new THREE.AmbientLight(0xa0c0ff, 0.012);
+const ambient = new THREE.AmbientLight(0xa0c0ff, 0.16);
 scene.add(ambient);
 
 // ---------------------------------------------------------------------------
@@ -18917,7 +18917,7 @@ function initSummerScene(container) {
   renderer.setSize(viewport.width, viewport.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
+  renderer.toneMappingExposure = 1.60;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -19098,14 +19098,14 @@ cloudDome.renderOrder = -950;
 cloudDome.frustumCulled = false;
 scene.add(cloudDome);
 
-const hemi = new THREE.HemisphereLight(0xffd5b2, 0x6f685a, 0.3);
+const hemi = new THREE.HemisphereLight(0xffd5b2, 0x6f685a, 0.62);
 scene.add(hemi);
 
 const fillLight = new THREE.DirectionalLight(0xaab9cd, 0.15);
 fillLight.position.set(17, 8, -14);
 scene.add(fillLight);
 
-const ambient = new THREE.AmbientLight(0xffd7ac, 0.46);
+const ambient = new THREE.AmbientLight(0xffd7ac, 0.92);
 scene.add(ambient);
 
 const sun = new THREE.DirectionalLight(0xffb366, 3.35);
@@ -19134,7 +19134,7 @@ const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(viewport.width, viewport.height),
   0.56,
   0.62,
-  0.74
+  0.90
 );
 composer.addPass(bloomPass);
 composer.addPass(new OutputPass());
@@ -22963,16 +22963,16 @@ function updateWeather(dt) {
   const ease = weatherMix * weatherMix * (3 - 2 * weatherMix);
 
   sun.color.copy(CLEAR_SUN).lerp(RAIN_SUN, ease);
-  sun.intensity = 3.35 + (1.35 - 3.35) * ease;
+  sun.intensity = 4.35 + (2.35 - 4.35) * ease;
   ambient.color.copy(CLEAR_AMBIENT).lerp(RAIN_AMBIENT, ease);
-  ambient.intensity = 0.46 + (0.25 - 0.46) * ease;
+  ambient.intensity = 0.78 + (0.52 - 0.78) * ease;
   hemi.color.copy(CLEAR_HEMI).lerp(RAIN_HEMI, ease);
   hemi.groundColor.copy(CLEAR_GROUND).lerp(RAIN_GROUND, ease);
-  hemi.intensity = 0.3 + (0.22 - 0.3) * ease;
+  hemi.intensity = 0.58 + (0.42 - 0.58) * ease;
   fillLight.color.copy(CLEAR_FILL).lerp(RAIN_FILL, ease);
-  fillLight.intensity = 0.15 + (0.22 - 0.15) * ease;
+  fillLight.intensity = 0.25 + (0.32 - 0.25) * ease;
   scene.fog.color.copy(CLEAR_FOG).lerp(RAIN_FOG, ease);
-  renderer.toneMappingExposure = 1.1 + (0.9 - 1.1) * ease;
+  renderer.toneMappingExposure = 1.60 + (1.45 - 1.60) * ease;
 
   MAT.lampGlow.emissiveIntensity = 2.1 + 4.2 * ease;
   for (const light of lampPointLights) {
@@ -23408,7 +23408,7 @@ function initAutumnScene(container) {
   });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.98;
+  renderer.toneMappingExposure = 1.18;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.autoUpdate = false;
@@ -23472,7 +23472,7 @@ const bloomPass = new UnrealBloomPass(
   0.5,
   0.8,
 );
-bloomPass.threshold = 0.8;
+bloomPass.threshold = 0.9;
 bloomPass.strength = 0.8;
 bloomPass.radius = 0.5;
 // A warm tint keeps the bloom from looking like a cold camera haze.
@@ -24100,8 +24100,11 @@ sky.frustumCulled = false;
 sky.renderOrder = -20;
 scene.add(sky);
 
-const hemi = new THREE.HemisphereLight(0xffe2c2, 0x413c30, 0.52);
+const hemi = new THREE.HemisphereLight(0xffe2c2, 0x413c30, 0.62);
 scene.add(hemi);
+
+const ambient = new THREE.AmbientLight(0xffe3b8, 0.2);
+scene.add(ambient);
 
 const sun = new THREE.DirectionalLight(0xfff4df, 3.0);
 // Lower, more lateral sunset angle: longer raking shadows and a clear
@@ -28702,7 +28705,7 @@ function initWinterScene(container) {
   renderer.setSize(viewport.width, viewport.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
+  renderer.toneMappingExposure = 0.92;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -28711,7 +28714,7 @@ function initWinterScene(container) {
   canvas.style.display = 'block';
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
+renderer.toneMappingExposure = 0.92;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -35954,6 +35957,21 @@ window.initWinterScene = initWinterScene;
       };
     })();
 
+@@SCENE_CLOSE_SCRIPT@@
+<script id="deep-link-season">
+(function () {
+  var season = new URLSearchParams(window.location.search).get('season');
+  if (!['spring', 'summer', 'autumn', 'winter'].includes(season)) return;
+  var start = function () {
+    if (window.SeasonGallery && typeof window.SeasonGallery.open === 'function') {
+      window.SeasonGallery.open(season);
+    } else {
+      setTimeout(start, 120);
+    }
+  };
+  if (document.readyState === 'complete') setTimeout(start, 350);
+  else window.addEventListener('load', function () { setTimeout(start, 350); }, { once: true });
+})();
 @@SCENE_CLOSE_SCRIPT@@
 </body>
 </html>
